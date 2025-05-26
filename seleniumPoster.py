@@ -90,11 +90,15 @@ def post_tweet(username, password, message):
 
             print("Adjusted coordinates:", adjusted_x, adjusted_y)
 
-            # Click the button via pyautogui
-            pyautogui.moveTo(adjusted_x, adjusted_y)
+            # Add the window position to the adjusted coordinates
+            screen_x = adjusted_x
+            screen_y = adjusted_y + 350
+
+            print("Screen coordinates for click:", screen_x, screen_y)
+
+            # Move the mouse and click using pyautogui
+            pyautogui.moveTo(screen_x, screen_y)
             pyautogui.click()
-        else:
-            print("No match found.")
 
         # Wait for the tweet to be posted
         print("Tweet posted successfully!")
