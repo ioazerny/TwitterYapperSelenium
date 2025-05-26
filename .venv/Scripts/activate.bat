@@ -8,7 +8,7 @@ if defined _OLD_CODEPAGE (
     "%SystemRoot%\System32\chcp.com" 65001 > nul
 )
 
-set VIRTUAL_ENV=c:\Users\sevas\.vscode\extensions\ms-dotnettools.vscode-dotnet-pack-1.0.13\misc\TwitterYapper\.venv
+set VIRTUAL_ENV=C:\Users\sevas\Videos\GitHub\TwitterYapper\.venv
 
 if not defined PROMPT set PROMPT=$P$G
 

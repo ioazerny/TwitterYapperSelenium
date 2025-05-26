@@ -33,7 +33,7 @@ end
 # Unset irrelevant variables.
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV "c:\Users\sevas\.vscode\extensions\ms-dotnettools.vscode-dotnet-pack-1.0.13\misc\TwitterYapper\.venv"
+set -gx VIRTUAL_ENV "C:\Users\sevas\Videos\GitHub\TwitterYapper\.venv"
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/Scripts" $PATH

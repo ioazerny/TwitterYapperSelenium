@@ -40,12 +40,12 @@ case "$(uname)" in
     CYGWIN*|MSYS*)
         # transform D:\path\to\venv to /d/path/to/venv on MSYS
         # and to /cygdrive/d/path/to/venv on Cygwin
-        VIRTUAL_ENV=$(cygpath "c:\Users\sevas\.vscode\extensions\ms-dotnettools.vscode-dotnet-pack-1.0.13\misc\TwitterYapper\.venv")
+        VIRTUAL_ENV=$(cygpath "C:\Users\sevas\Videos\GitHub\TwitterYapper\.venv")
         export VIRTUAL_ENV
         ;;
     *)
         # use the path as-is
-        export VIRTUAL_ENV="c:\Users\sevas\.vscode\extensions\ms-dotnettools.vscode-dotnet-pack-1.0.13\misc\TwitterYapper\.venv"
+        export VIRTUAL_ENV="C:\Users\sevas\Videos\GitHub\TwitterYapper\.venv"
         ;;
 esac
 
