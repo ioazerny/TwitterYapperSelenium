@@ -8,6 +8,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 import time
 from pathlib import Path
 import cv2
+import pyautogui
 
 def post_tweet(username, password, message):
     try:
@@ -57,36 +58,45 @@ def post_tweet(username, password, message):
         # Load the screenshot for processing
         screenshot = cv2.imread(str(sc_path))
         template = cv2.imread("PostButton.png")
-
+        
         # Match the template to the screenshot
         result = cv2.matchTemplate(screenshot, template, cv2.TM_CCOEFF_NORMED)
         _, max_val, _, max_loc = cv2.minMaxLoc(result)
-
+        
+        # Print the matching result
+        print("Template matching result:", max_val)
+        
         # Set a matching confidence threshold
         threshold = 0.9
         if max_val >= threshold:
             print("Button match found!")
-
+        
             # Get center of the matched region
             t_height, t_width = template.shape[:2]
             center_x = max_loc[0] + t_width // 2
             center_y = max_loc[1] + t_height // 2
+        
+            # Print the coordinates
+            print("Button coordinates:", center_x, center_y)
+        
+            # Get viewport offset
+            viewport_offset = driver.execute_script("return [window.pageXOffset, window.pageYOffset];")
+
+            print("Viewport offset:", viewport_offset)
+
+            # Adjust coordinates
+            adjusted_x = center_x - viewport_offset[0]
+            adjusted_y = center_y - viewport_offset[1]
+
+            print("Adjusted coordinates:", adjusted_x, adjusted_y)
+
+            # Click the button via pyautogui
+            pyautogui.moveTo(adjusted_x, adjusted_y)
+            pyautogui.click()
         else:
-            raise Exception("Button not found — try adjusting the image or threshold")
+            print("No match found.")
 
-        # Scroll to the vertical position of the match (optional)
-        driver.execute_script("window.scrollTo(0, arguments[0]);", center_y - 300)
-
-        # Click using offset from top-left of browser window
-        actions = ActionChains(driver)
-        actions.move_by_offset(center_x, center_y).click().perform()
-
-        # Reset offset to avoid future mis-clicks
-        actions.move_by_offset(-center_x, -center_y).perform()
-
-
-
-
+        # Wait for the tweet to be posted
         print("Tweet posted successfully!")
         time.sleep(5)
 
