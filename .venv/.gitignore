@@ -1,0 +1,5 @@
+# Ignore credentials file and environment variables
+credentials.py
+.env
+__pycache__/
+*.pyc
