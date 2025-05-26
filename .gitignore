@@ -1,5 +1,26 @@
-# Ignore credentials file and environment variables
-credentials.py
-.env
+# Ignore Python virtual environment
+.venv/
+venv/
+ENV/
+env/
+*.env
+
+# Ignore Python cache and build artifacts
 __pycache__/
-*.pyc
+*.py[cod]
+*.pyo
+*.pyd
+*.egg
+*.egg-info/
+dist/
+build/
+
+# Ignore credentials and sensitive files
+credentials.py
+
+# Ignore system files
+.DS_Store
+Thumbs.db
+
+# Ignore VSCode project settings (optional)
+.vscode/
