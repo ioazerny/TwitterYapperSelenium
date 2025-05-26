@@ -1,34 +1,55 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.support import expected_conditions as EC
+from webdriver_manager.chrome import ChromeDriverManager
 import time
+from selenium.webdriver import ActionChains
+import cv2
+import numpy as np
 
 def post_tweet(username, password, message):
-    driver = webdriver.Chrome()  # assumes chromedriver is installed
-    driver.get("https://twitter.com/login")
-    time.sleep(3)
+    try:
+        options = webdriver.ChromeOptions()
+        options.add_argument("--start-maximized")
+        driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
 
-    # Username
-    username_input = driver.find_element(By.NAME, "text")
-    username_input.send_keys(username)
-    username_input.send_keys(Keys.RETURN)
-    time.sleep(3)
+        driver.get("https://twitter.com/login")
 
-    # Password
-    password_input = driver.find_element(By.NAME, "password")
-    password_input.send_keys(password)
-    password_input.send_keys(Keys.RETURN)
-    time.sleep(5)
+        # Login sequence
+        WebDriverWait(driver, 15).until(
+            EC.presence_of_element_located((By.NAME, "text"))
+        ).send_keys(username + "\n")
+        time.sleep(2)
 
-    # Tweet box
-    tweet_box = driver.find_element(By.CSS_SELECTOR, "div[aria-label='Tweet text']")
-    tweet_box.click()
-    tweet_box.send_keys(message)
+        WebDriverWait(driver, 15).until(
+            EC.presence_of_element_located((By.NAME, "password"))
+        ).send_keys(password + "\n")
 
-    # Tweet button
-    tweet_button = driver.find_element(By.XPATH, '//div[@data-testid="tweetButtonInline"]')
-    tweet_button.click()
-    print("✅ Tweet sent!")
+        # Wait until home page loads
+        WebDriverWait(driver, 20).until(
+            EC.presence_of_element_located((By.CSS_SELECTOR, 'a[aria-label="Profile"]'))
+        )
 
-    time.sleep(2)
-    driver.quit()
+        # Navigate to tweet composer
+        time.sleep(5)  # Wait to stabilize the page load
+        editor_field = WebDriverWait(driver, 15).until(
+            EC.presence_of_element_located((By.CSS_SELECTOR, 'div[class="DraftEditor-editorContainer"]'))
+        )
+        editor_field.click()
+
+        element = WebDriverWait(driver, 3).until(EC.element_to_be_clickable((By.CLASS_NAME, 'public-DraftEditorPlaceholder-root')))
+        ActionChains(driver).move_to_element(element).send_keys(message).perform()
+
+        sendTw = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, 'div[data-testid="tweetButtonInline"]')))
+        sendTw.click()
+
+        print("Tweet posted successfully!")
+        time.sleep(5)
+
+    except Exception as e:
+        print("Error during tweeting:", e)
+
+    finally:
+        driver.quit()
