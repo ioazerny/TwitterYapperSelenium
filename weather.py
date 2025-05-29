@@ -1,3 +1,2 @@
-def get_weather():
-    # TODO: Replace with real weather API call
+def get_message():
     return "Current weather in SLC: Sunny, 75°F"
