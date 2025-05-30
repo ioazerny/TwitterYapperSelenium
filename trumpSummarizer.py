@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 from newspaper import Article
 import nltk
+import json
 
 
 def get_message():
@@ -17,14 +18,39 @@ def get_message():
             title = item.title.text
             link = item.link.text
             
-            article = Article(link)
+            redirect = requests.get(link)
+
+            data = BeautifulSoup(redirect.text, 'html.parser').select_one('c-wiz[data-p]').get('data-p')
+            obj = json.loads(data.replace('%.@.', '["garturlreq",'))
+
+            payload = {
+                'f.req': json.dumps([[['Fbv4je', json.dumps(obj[:-6] + obj[-2:]), 'null', 'generic']]])
+            }
+
+            headers = {
+                'content-type': 'application/x-www-form-urlencoded;charset=UTF-8',
+                'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36',
+            }
+
+            url = "https://news.google.com/_/DotsSplashUi/data/batchexecute"
+            response = requests.post(url, headers=headers, data=payload)
+            array_string = json.loads(response.text.replace(")]}'", ""))[0][2]
+            article_url = json.loads(array_string)[1]
+
+            article = Article(article_url)
+
+            print(article.url)
+
             article.download()
+
             article.parse()
             article.nlp()
 
+            artSum = article.summary
+
             # Create a summary with title, URL, and summary
-            summary = f"Title: {title}\nURL: {link}\nSummary: {article.summary}\n\n"
-            summaries.append(summary)
+            #summary = f"Title: {title}\nURL: {link}\nSummary: {artSum}\n\n"
+            #summaries.append(summary)
             
         except Exception as e:
             print(f"Error processing article: {e}")
