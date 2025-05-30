@@ -92,7 +92,7 @@ def post_tweet(username, password, message):
 
             # Add the window position to the adjusted coordinates
             screen_x = adjusted_x
-            screen_y = adjusted_y + 350
+            screen_y = adjusted_y + 700
 
             print("Screen coordinates for click:", screen_x, screen_y)
 
