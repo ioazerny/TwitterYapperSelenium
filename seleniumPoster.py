@@ -40,6 +40,8 @@ def post_tweet(username, password, message):
         editor.click()
         ActionChains(driver).send_keys(message).perform()
 
+        time.sleep(5)
+
         # Streamlined post strategies (keep 3 most reliable)
         post_strategies = [
             # Primary selector (data-testid)

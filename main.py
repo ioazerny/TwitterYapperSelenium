@@ -9,8 +9,8 @@ import time
 
 if __name__ == "__main__":
     options = [weather, trumpSummarizer, authorsNote, funFact]
-#    message = random.choice(options).get_message()
-    message = weather.get_message()
+    message = random.choice(options).get_message()
+    #message = weather.get_message()
     # print(message)
     # print("The message is generated")
     # time.sleep(500000)
