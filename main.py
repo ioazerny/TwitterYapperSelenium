@@ -12,6 +12,6 @@ if __name__ == "__main__":
 #    message = random.choice(options).get_message()
     message = trumpSummarizer.get_message()
     print(message)
-    print("The message is generated")
+    #print("The message is generated")
     time.sleep(500000)
     post_tweet(TWITTER_USERNAME, TWITTER_PASSWORD, message)
