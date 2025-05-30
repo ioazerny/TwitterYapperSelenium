@@ -58,7 +58,7 @@ def post_tweet(username, password, message):
             try:
                 strategy()
                 print("Tweet posted successfully!")
-                time.sleep(2)  # Minimal wait for confirmation
+                time.sleep(13)  # Minimal wait for confirmation
                 break
             except Exception as e:
                 continue
