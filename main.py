@@ -8,10 +8,6 @@ import random
 import time
 
 if __name__ == "__main__":
-    options = [weather, trumpSummarizer, authorsNote, funFact]
-    message = random.choice(options).get_message()
-    #message = weather.get_message()
-    # print(message)
-    # print("The message is generated")
-    # time.sleep(500000)
-    post_tweet(TWITTER_USERNAME, TWITTER_PASSWORD, message)
+     options = [weather, trumpSummarizer, authorsNote, funFact]
+#    message = random.choice(options).get_message()
+#    post_tweet(TWITTER_USERNAME, TWITTER_PASSWORD, message)
