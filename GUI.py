@@ -1,31 +1,26 @@
 import tkinter as tk
-from tkinter import messagebox
-import main
 
-def send_tweet():
-    choice = var.get()
-    if choice == "weather":
-        main.post_weather_tweet()
-    elif choice == "trump":
-        main.post_trump_tweet()
-    elif choice == "author":
-        main.post_authors_note_tweet()
+def toggle_auto():
+    if auto_button.cget('bg') == 'white':
+        auto_button.config(bg='blue', fg='white')  # On state
     else:
-        messagebox.showerror("Error", "Please select an option.")
-        return
-    messagebox.showinfo("Success", "Tweet posted!")
+        auto_button.config(bg='white', fg='black')  # Off state
 
+# Create the main window
 root = tk.Tk()
-root.title("Twitter Bot GUI")
+root.title("Twitter Yapper Bot")
 
-var = tk.StringVar()
+# Title at the top
+title = tk.Label(root, text="Twitter Yapper Bot", font=('Arial', 16))
+title.pack(pady=10)
 
-tk.Label(root, text="Choose what to tweet:").pack()
+# Four main buttons (replace 'Option X' with your actual button names)
+for i in range(1, 5):
+    button = tk.Button(root, text=f"Option {i}", width=20)
+    button.pack(pady=5)
 
-tk.Radiobutton(root, text="Weather", variable=var, value="weather").pack(anchor=tk.W)
-tk.Radiobutton(root, text="Trump Summary", variable=var, value="trump").pack(anchor=tk.W)
-tk.Radiobutton(root, text="Author's Note", variable=var, value="author").pack(anchor=tk.W)
-
-tk.Button(root, text="Send Tweet", command=send_tweet).pack(pady=10)
+# Toggle button in the lower right corner
+auto_button = tk.Button(root, text="AUTO", width=8, bg='white', command=toggle_auto)
+auto_button.place(rely=1.0, relx=1.0, anchor='se', x=-10, y=-10)  # Lower right with small margin[3]
 
 root.mainloop()
